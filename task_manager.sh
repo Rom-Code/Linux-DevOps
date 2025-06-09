@@ -26,3 +26,9 @@ complete_task() {
   echo "Task marked as completed."
 }
 
+delete_task() {
+  list_tasks
+  read -p "Enter task number to delete: " num
+  sed -i "${num}d" tasks.txt
+  echo "Task deleted."
+}
