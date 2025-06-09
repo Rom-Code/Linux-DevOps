@@ -1,4 +1,20 @@
 #!/bin/bash
+# check if dialog installed first
+if ! command -v dialog &> /dev/null; then
+  echo "Error: 'dialog' is not installed."
+  if [ -f /etc/debian_version ]; then
+    echo "Install it with: sudo apt update && sudo apt install dialog"
+  elif [ -f /etc/fedora-release ]; then
+    echo "Install it with: sudo dnf install dialog"
+  elif [ -f /etc/arch-release ]; then
+    echo "Install it with: sudo pacman -S dialog"
+  else
+    echo "Please install 'dialog' using your system's package manager."
+  fi
+  exit 1
+fi
+
+
 
 RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
