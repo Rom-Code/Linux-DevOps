@@ -14,8 +14,8 @@ add_task(){
 	echo "Task added."
 }
 
-list_task(){
-	echo "Task:"
-	sort -t"|" -k2 tasks.txt | awk -F"|| '{ status=($1=="1") ? "Done" : "Pending;
-print NR ". [" status "] " $$3 " (Due: " $2 ")" }'
+list_tasks() {
+  echo "Tasks:"
+  sort -t"|" -k2 tasks.txt | awk -F"|" '{ status=($1=="1") ? "Done" : "Pending"; print NR ". [" status "] " $3 " (Due: " $2 ")" }'
 }
+
