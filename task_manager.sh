@@ -48,26 +48,24 @@ search_tasks() {
   grep -i "$keyword" tasks.txt | awk -F"|" '{ status=($1=="1") ? "Done" : "Pending"; print "[" status "] " $3 " (Due: " $2 ")" }'
 }
 
-show_menu() {
-  echo "1) Add task"
-  echo "2) List tasks"
-  echo "3) Mark task as completed"
-  echo "4) Delete task"
-  echo "5) Search tasks"
-  echo "6) Exit"
-}
 
-while true; do
-  show_menu
-  read -p "Choose an option: " choice
-  case $choice in
-    1) add_task ;;
-    2) list_tasks ;;
-    3) complete_task ;;
-    4) delete_task ;;
-    5) search_tasks ;;
-    6) echo "Goodbye!"; break ;;
-    *) echo "Invalid option." ;;
-  esac
-  echo ""
-done
+choice=$(dialog --clear --backtitle "Task Manager" \
+  --title "Main Menu" \
+  --menu "Choose an option:" 15 50 6 \
+  1 "Add task" \
+  2 "List tasks" \
+  3 "Complete task" \
+  4 "Delete task" \
+  5 "Search tasks" \
+  6 "Exit" 3>&1 1>&2 2>&3)
+
+clear
+
+case $choice in
+  1) add_task ;;
+  2) list_tasks ;;
+  3) complete_task ;;
+  4) delete_task ;;
+  5) search_tasks ;;
+  6) exit 0 ;;
+esac
