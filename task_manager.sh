@@ -19,3 +19,10 @@ list_tasks() {
   sort -t"|" -k2 tasks.txt | awk -F"|" '{ status=($1=="1") ? "Done" : "Pending"; print NR ". [" status "] " $3 " (Due: " $2 ")" }'
 }
 
+complete_task() {
+  list_tasks
+  read -p "Enter task number to mark as completed: " num
+  sed -i "${num}s/^0/1/" tasks.txt
+  echo "Task marked as completed."
+}
+
