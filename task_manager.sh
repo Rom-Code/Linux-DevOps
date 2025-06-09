@@ -32,3 +32,8 @@ delete_task() {
   sed -i "${num}d" tasks.txt
   echo "Task deleted."
 }
+
+search_tasks() {
+  read -p "Enter keyword to search: " keyword
+  grep -i "$keyword" tasks.txt | awk -F"|" '{ status=($1=="1") ? "Done" : "Pending"; print "[" status "] " $3 " (Due: " $2 ")" }'
+}
