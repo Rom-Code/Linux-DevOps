@@ -1,5 +1,11 @@
 #!/bin/bash
 
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+RESET=$(tput sgr0)
+
+
 create_task_file(){
 	if [ ! -f tasks.txt ]; then
 	touch tasks.txt
@@ -16,8 +22,12 @@ add_task(){
 
 list_tasks() {
   echo "Tasks:"
-  sort -t"|" -k2 tasks.txt | awk -F"|" '{ status=($1=="1") ? "Done" : "Pending"; print NR ". [" status "] " $3 " (Due: " $2 ")" }'
+  sort -t"|" -k2 tasks.txt | awk -F"|" -v red="$RED" -v green="$GREEN" -v yellow="$YELLOW" -v reset="$RESET" '{
+    status=($1=="1") ? green "Done" reset : yellow "Pending" reset;
+    print NR ". [" status "] " $3 " (Due: " $2 ")";
+  }'
 }
+
 
 complete_task() {
   list_tasks
