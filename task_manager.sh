@@ -37,3 +37,27 @@ search_tasks() {
   read -p "Enter keyword to search: " keyword
   grep -i "$keyword" tasks.txt | awk -F"|" '{ status=($1=="1") ? "Done" : "Pending"; print "[" status "] " $3 " (Due: " $2 ")" }'
 }
+
+show_menu() {
+  echo "1) Add task"
+  echo "2) List tasks"
+  echo "3) Mark task as completed"
+  echo "4) Delete task"
+  echo "5) Search tasks"
+  echo "6) Exit"
+}
+
+while true; do
+  show_menu
+  read -p "Choose an option: " choice
+  case $choice in
+    1) add_task ;;
+    2) list_tasks ;;
+    3) complete_task ;;
+    4) delete_task ;;
+    5) search_tasks ;;
+    6) echo "Goodbye!"; break ;;
+    *) echo "Invalid option." ;;
+  esac
+  echo ""
+done
