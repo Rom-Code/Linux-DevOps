@@ -13,12 +13,29 @@ create_task_file(){
 	fi
 }
 
-add_task(){
-	read -p "Enter Task description: " desc
-	read -p "Enter due date (YYYY-MM-DD): " due
-	echo "o}$due}$desc" >> tasks.txt
-	echo "Task added."
+add_task() {
+  desc=$(dialog --stdout --inputbox "Enter task description:" 8 40)
+  ret=$?
+  clear
+  if [ $ret -ne 0 ] || [ -z "$desc" ]; then
+    dialog --msgbox "Task description is required. Operation canceled." 6 40
+    return
+  fi
+
+  due=$(dialog --stdout --inputbox "Enter due date (YYYY-MM-DD):" 8 40)
+  ret=$?
+  clear
+  if [ $ret -ne 0 ] || [ -z "$due" ]; then
+    dialog --msgbox "Due date is required. Operation canceled." 6 40
+    return
+  fi
+
+  echo "0|$due|$desc" >> tasks.txt
+  dialog --msgbox "Task added successfully." 6 40
+ clear
 }
+
+
 
 list_tasks() {
   echo "Tasks:"
